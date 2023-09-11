@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:fix": "npx eslint --fix ./{app,providers}/**/*.{ts,tsx}"
+    "format:fix": "npx eslint --fix ./{app,providers,actions,components,interfaces}/**/*.{ts,tsx}"
   },
   "dependencies": {
     "@nextui-org/react": "^2.1.12",
@@ -21,6 +21,7 @@
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-spinners": "^0.13.8",
     "tailwindcss": "3.3.3"
   },
   "devDependencies": {
