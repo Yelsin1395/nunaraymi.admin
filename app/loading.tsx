@@ -1,7 +1,5 @@
 'use client'
-
 import { BounceLoader } from 'react-spinners'
-
 import { Box } from '@/components/Box'
 
 export default function Loading() {

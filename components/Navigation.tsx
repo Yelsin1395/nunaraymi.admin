@@ -3,12 +3,14 @@
 // import { useMemo } from 'react'
 // import { usePathname } from 'next/navigation'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from '@nextui-org/react'
+import { type Kapuc } from '@/interfaces/kapuc'
 
 interface NavigationProps {
 	children: React.ReactNode
+	kapuc: Kapuc
 }
 
-export const Navigation = ({ children }: NavigationProps) => {
+export const Navigation = ({ children, kapuc }: NavigationProps) => {
 	// const pathname = usePathname()
 
 	// const routes = useMemo(
@@ -27,7 +29,7 @@ export const Navigation = ({ children }: NavigationProps) => {
 		<>
 			<Navbar>
 				<NavbarBrand>
-					<p className='font-bold text-inherit'>ACME</p>
+					<p className='font-bold text-inherit'>{kapuc.name}</p>
 				</NavbarBrand>
 				<NavbarContent className='hidden sm:flex gap-4' justify='center'>
 					<NavbarItem>

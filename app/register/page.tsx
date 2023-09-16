@@ -1,7 +1,6 @@
 'use client'
-
-import { Section } from '@/components/Section'
 import { Input, Select, SelectItem } from '@nextui-org/react'
+import { Section } from '@/components/Section'
 
 export default function Register() {
 	return (
