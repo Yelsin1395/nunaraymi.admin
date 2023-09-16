@@ -32,7 +32,8 @@ export const Navigation = ({ children, kapuc }: NavigationProps) => {
 					<p className='font-bold text-inherit'>{kapuc.name}</p>
 				</NavbarBrand>
 				<NavbarContent className='hidden sm:flex gap-4' justify='center'>
-					<NavbarItem>
+					<NavbarItem></NavbarItem>
+					{/* <NavbarItem>
 						<Link color='foreground' href='/'>
 							Features
 						</Link>
@@ -46,7 +47,7 @@ export const Navigation = ({ children, kapuc }: NavigationProps) => {
 						<Link color='foreground' href='#'>
 							Integrations
 						</Link>
-					</NavbarItem>
+					</NavbarItem> */}
 				</NavbarContent>
 				<NavbarContent justify='end'>
 					<NavbarItem className='hidden lg:flex'>

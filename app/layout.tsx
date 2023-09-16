@@ -4,11 +4,9 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import { NextUiProvider } from '@/providers/NextUiProvider'
+import { AppUiProvider } from '@/providers/AppUiProvider'
 import { ToasterProvider } from '@/providers/ToasterProvider'
-import { Navigation } from '@/components/Navigation'
-import { getKapucById } from '@/actions/queryKapuc'
-import { useFetch } from '@/hooks/useFetch'
-import Loading from './loading'
+import Loading from '@/components/loading'
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -18,15 +16,13 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-	const { isLoading, payload } = useFetch(getKapucById())
-
 	return (
 		<html lang='en' className='light'>
 			<body className={nunito.className}>
 				<ToasterProvider />
 				<Suspense fallback={<Loading />}>
 					<NextUiProvider>
-						{isLoading ? <Loading /> : <Navigation kapuc={payload}>{children}</Navigation>}
+						<AppUiProvider>{children}</AppUiProvider>
 					</NextUiProvider>
 				</Suspense>
 			</body>
