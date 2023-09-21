@@ -3,7 +3,7 @@
 // import { useMemo } from 'react'
 // import { usePathname } from 'next/navigation'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from '@nextui-org/react'
-import { type Kapuc } from '@/interfaces/kapuc'
+import { type Kapuc } from '@/interfaces/kamachiq'
 
 interface NavigationProps {
 	children: React.ReactNode

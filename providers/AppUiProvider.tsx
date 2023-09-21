@@ -1,6 +1,6 @@
 import { Navigation } from '@/components/Navigation'
 import Loading from '@/components/loading'
-import { getKapucById } from '@/actions/queryKapuc'
+import { getKapucById } from '@/actions/kapuc/queryKapuc'
 import { useFetch } from '@/hooks/useFetch'
 
 interface AppUiProvider {

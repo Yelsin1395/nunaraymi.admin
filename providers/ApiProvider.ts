@@ -37,7 +37,7 @@ class ApiProvider implements ApiProviderImpl {
 				'X-KAPUC-SITE': this.kapucId,
 				...headers,
 			},
-			body,
+			body: JSON.stringify(body),
 		})
 
 	put = <T>(url: string, body: any, headers?: Record<string, string>): Observable<Response | T> =>
@@ -48,7 +48,7 @@ class ApiProvider implements ApiProviderImpl {
 				'X-KAPUC-SITE': this.kapucId,
 				...headers,
 			},
-			body,
+			body: JSON.stringify(body),
 		})
 
 	patch = <T>(url: string, body: any, headers?: Record<string, string>): Observable<Response | T> =>
@@ -59,12 +59,11 @@ class ApiProvider implements ApiProviderImpl {
 				'X-KAPUC-SITE': this.kapucId,
 				...headers,
 			},
-			body,
+			body: JSON.stringify(body),
 		})
 
 	delete = <T>(
 		url: string,
-		body?: any,
 		headers?: Record<string, string> | undefined
 	): Observable<Response | T> =>
 		fromFetch(this.getUrl(url), {
@@ -74,7 +73,6 @@ class ApiProvider implements ApiProviderImpl {
 				'X-KAPUC-SITE': this.kapucId,
 				...headers,
 			},
-			body,
 		})
 
 	setBaseUrl = (url: string) => {
