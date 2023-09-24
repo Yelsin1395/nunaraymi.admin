@@ -2,18 +2,20 @@
 import { useState } from 'react'
 import { Section } from '@/components/Section'
 import { KamachiqFrom } from './components/KamachiqForm'
+import { UsuarioForm } from './components/UsuarioForm'
 
 export default function Register() {
-	const [idKamachiq, setIdKamachiq] = useState<string>('')
+	const [kamachiqId, setKamachiqId] = useState<string>('')
 
 	return (
 		<Section>
+			<h1 className='text-5xl font-semibold text-center mb-6'>Register</h1>
 			<KamachiqFrom
 				getKamachiqId={(id) => {
-					setIdKamachiq(id)
+					setKamachiqId(id)
 				}}
 			/>
-			<p>{idKamachiq}</p>
+			<UsuarioForm kamachiqId={kamachiqId} />
 		</Section>
 	)
 }
