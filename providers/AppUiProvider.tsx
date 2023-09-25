@@ -1,3 +1,4 @@
+'use client'
 import { Navigation } from '@/components/Navigation'
 import Loading from '@/components/loading'
 import { getKapucById } from '@/actions/kapuc/query'

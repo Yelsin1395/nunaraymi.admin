@@ -1,4 +1,3 @@
-'use client'
 import './globals.scss'
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
