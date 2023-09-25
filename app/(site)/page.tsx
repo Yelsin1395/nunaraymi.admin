@@ -1,108 +1,107 @@
+'use client'
+import { useState } from 'react'
+import { useRouter, redirect } from 'next/navigation'
+import { Input, Button } from '@nextui-org/react'
+import { useSession } from 'next-auth/react'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { Section } from '@/components/Section'
+import { auth } from '@/actions/usuario/auth'
 
 export default function Home() {
+	const { status } = useSession()
+	const router = useRouter()
+	const [isLoading, setIsLoading] = useState(false)
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm({ mode: 'onBlur' })
+
+	if (status === 'authenticated') {
+		redirect('/dashboard')
+	}
+
+	const onSubmitForm = (data: any) => {
+		setIsLoading(true)
+		auth(data.email, data.password).subscribe({
+			next: (value) => {
+				if (value.error) {
+					toast.error(value.error)
+					return
+				}
+
+				toast.success('Redirigiendo')
+				router.push('/dashboard')
+			},
+			complete: () => {
+				setIsLoading(false)
+			},
+		})
+	}
+
 	return (
 		<Section>
-			<ul role='list' className='divide-y divide-gray-100'>
-				<li className='flex justify-between gap-x-6 py-5'>
-					<div className='flex min-w-0 gap-x-4'>
-						{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> */}
-						<div className='min-w-0 flex-auto'>
-							<p className='text-sm font-semibold leading-6 text-gray-900'>Leslie Alexander</p>
-							<p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-								leslie.alexander@example.com
-							</p>
-						</div>
-					</div>
-					<div className='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
-						<p className='text-sm leading-6 text-gray-900'>Co-Founder / CEO</p>
-						<p className='mt-1 text-xs leading-5 text-gray-500'>Last seen 3h ago</p>
-					</div>
-				</li>
-				<li className='flex justify-between gap-x-6 py-5'>
-					<div className='flex min-w-0 gap-x-4'>
-						{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> */}
-						<div className='min-w-0 flex-auto'>
-							<p className='text-sm font-semibold leading-6 text-gray-900'>Michael Foster</p>
-							<p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-								michael.foster@example.com
-							</p>
-						</div>
-					</div>
-					<div className='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
-						<p className='text-sm leading-6 text-gray-900'>Co-Founder / CTO</p>
-						<p className='mt-1 text-xs leading-5 text-gray-500'>Last seen </p>
-					</div>
-				</li>
-				<li className='flex justify-between gap-x-6 py-5'>
-					<div className='flex min-w-0 gap-x-4'>
-						{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> */}
-						<div className='min-w-0 flex-auto'>
-							<p className='text-sm font-semibold leading-6 text-gray-900'>Dries Vincent</p>
-							<p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-								dries.vincent@example.com
-							</p>
-						</div>
-					</div>
-					<div className='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
-						<p className='text-sm leading-6 text-gray-900'>Business Relations</p>
-						<div className='mt-1 flex items-center gap-x-1.5'>
-							<div className='flex-none rounded-full bg-emerald-500/20 p-1'>
-								<div className='h-1.5 w-1.5 rounded-full bg-emerald-500'></div>
+			<div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
+				<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
+					<img
+						className='mx-auto h-10 w-auto'
+						src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+						alt='Your Company'
+					/>
+					<h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+						Inicie sesión en su cuenta
+					</h2>
+				</div>
+
+				<div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
+					<form className='space-y-6' onSubmit={handleSubmit(onSubmitForm)}>
+						<div>
+							<div className='mt-2'>
+								<Input
+									type='text'
+									label='Correo electrónico'
+									{...register('email', { required: true })}
+									isInvalid={errors?.email && true}
+									errorMessage={errors?.email && 'Este campo es requerido'}
+								/>
 							</div>
-							<p className='text-xs leading-5 text-gray-500'>Online</p>
 						</div>
-					</div>
-				</li>
-				<li className='flex justify-between gap-x-6 py-5'>
-					<div className='flex min-w-0 gap-x-4'>
-						{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> */}
-						<div className='min-w-0 flex-auto'>
-							<p className='text-sm font-semibold leading-6 text-gray-900'>Lindsay Walton</p>
-							<p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-								lindsay.walton@example.com
-							</p>
-						</div>
-					</div>
-					<div className='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
-						<p className='text-sm leading-6 text-gray-900'>Front-end Developer</p>
-						<p className='mt-1 text-xs leading-5 text-gray-500'>Last seen </p>
-					</div>
-				</li>
-				<li className='flex justify-between gap-x-6 py-5'>
-					<div className='flex min-w-0 gap-x-4'>
-						{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> */}
-						<div className='min-w-0 flex-auto'>
-							<p className='text-sm font-semibold leading-6 text-gray-900'>Courtney Henry</p>
-							<p className='mt-1 truncate text-xs leading-5 text-gray-500'>
-								courtney.henry@example.com
-							</p>
-						</div>
-					</div>
-					<div className='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
-						<p className='text-sm leading-6 text-gray-900'>Designer</p>
-						<p className='mt-1 text-xs leading-5 text-gray-500'>Last seen </p>
-					</div>
-				</li>
-				<li className='flex justify-between gap-x-6 py-5'>
-					<div className='flex min-w-0 gap-x-4'>
-						{/* <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""> */}
-						<div className='min-w-0 flex-auto'>
-							<p className='text-sm font-semibold leading-6 text-gray-900'>Tom Cook</p>
-							<p className='mt-1 truncate text-xs leading-5 text-gray-500'>tom.cook@example.com</p>
-						</div>
-					</div>
-					<div className='hidden shrink-0 sm:flex sm:flex-col sm:items-end'>
-						<p className='text-sm leading-6 text-gray-900'>Director of Product</p>
-						<div className='mt-1 flex items-center gap-x-1.5'>
-							<div className='flex-none rounded-full bg-emerald-500/20 p-1'>
-								<div className='h-1.5 w-1.5 rounded-full bg-emerald-500'></div>
+
+						<div>
+							<div className='mt-2'>
+								<Input
+									type='password'
+									label='Contraseña'
+									{...register('password', { required: true })}
+									isInvalid={errors?.password && true}
+									errorMessage={errors?.password && 'Este campo es requerido'}
+								/>
 							</div>
-							<p className='text-xs leading-5 text-gray-500'>Online</p>
+							<div className='flex items-center justify-between mt-4'>
+								<div className='text-sm'>
+									<a href='#' className='font-semibold text-indigo-600 hover:text-indigo-500'>
+										¿Has olvidado tu contraseña?
+									</a>
+								</div>
+							</div>
 						</div>
-					</div>
-				</li>
-			</ul>
+
+						<div>
+							<Button isLoading={isLoading} type='submit' color='primary' fullWidth>
+								Iniciar sesión
+							</Button>
+						</div>
+					</form>
+
+					<p className='mt-10 text-center text-sm text-gray-500'>
+						Not a member?{' '}
+						<a href='#' className='font-semibold leading-6 text-indigo-600 hover:text-indigo-500'>
+							Start a 14 day free trial
+						</a>
+					</p>
+				</div>
+			</div>
 		</Section>
 	)
 }

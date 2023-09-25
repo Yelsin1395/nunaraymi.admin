@@ -1,64 +1,64 @@
 'use client'
-
-// import { useMemo } from 'react'
-// import { usePathname } from 'next/navigation'
+import { useSession, signOut } from 'next-auth/react'
+import jwt from 'jsonwebtoken'
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from '@nextui-org/react'
-import { type Kapuc } from '@/interfaces/kamachiq'
+import { type IKapuc } from '@/interfaces/kapuc'
+import { type IUsuario } from '@/interfaces/usuario'
 
 interface NavigationProps {
 	children: React.ReactNode
-	kapuc: Kapuc
+	kapuc: IKapuc
+}
+
+const NavigationControllersUser = () => {
+	const { data: session, status } = useSession()
+
+	if (status === 'authenticated') {
+		const token: string = String(session?.user)
+		const user: IUsuario | any = jwt.decode(token, { complete: true })?.payload
+
+		return (
+			<NavbarContent justify='end'>
+				<NavbarItem>{user.name}</NavbarItem>
+				<NavbarItem>
+					<Button
+						color='primary'
+						variant='flat'
+						onClick={() => {
+							signOut()
+						}}
+					>
+						Cerrar sesión
+					</Button>
+				</NavbarItem>
+			</NavbarContent>
+		)
+	} else {
+		return (
+			<NavbarContent justify='end'>
+				<NavbarItem className='hidden lg:flex'>
+					<Link href='/'>Login</Link>
+				</NavbarItem>
+				<NavbarItem>
+					<Button as={Link} color='primary' href='/register' variant='flat'>
+						Sign Up
+					</Button>
+				</NavbarItem>
+			</NavbarContent>
+		)
+	}
 }
 
 export const Navigation = ({ children, kapuc }: NavigationProps) => {
-	// const pathname = usePathname()
-
-	// const routes = useMemo(
-	// 	() => [
-	// 		{
-	// 			// icon: BiSearch,
-	// 			label: 'Register',
-	// 			href: '/register',
-	// 			active: pathname === '/register',
-	// 		},
-	// 	],
-	// 	[pathname]
-	// )
-
 	return (
 		<>
 			<Navbar>
 				<NavbarBrand>
-					<p className='font-bold text-inherit'>{kapuc.name}</p>
+					<Link href='/'>
+						<p className='font-bold text-inherit'>{kapuc.name}</p>
+					</Link>
 				</NavbarBrand>
-				<NavbarContent className='hidden sm:flex gap-4' justify='center'>
-					<NavbarItem></NavbarItem>
-					{/* <NavbarItem>
-						<Link color='foreground' href='/'>
-							Features
-						</Link>
-					</NavbarItem>
-					<NavbarItem isActive>
-						<Link href='#' aria-current='page'>
-							Customers
-						</Link>
-					</NavbarItem>
-					<NavbarItem>
-						<Link color='foreground' href='#'>
-							Integrations
-						</Link>
-					</NavbarItem> */}
-				</NavbarContent>
-				<NavbarContent justify='end'>
-					<NavbarItem className='hidden lg:flex'>
-						<Link href='#'>Login</Link>
-					</NavbarItem>
-					<NavbarItem>
-						<Button as={Link} color='primary' href='/register' variant='flat'>
-							Sign Up
-						</Button>
-					</NavbarItem>
-				</NavbarContent>
+				<NavigationControllersUser />
 			</Navbar>
 			{children}
 		</>

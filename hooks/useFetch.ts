@@ -10,7 +10,7 @@ export const useFetch = (fetch$: Observable<any>) => {
 	useEffect(() => {
 		fetch$.subscribe({
 			next: (value) => {
-				if (!value.sucess) {
+				if (!value.success) {
 					toast.error(errorTranslate(value.payload.code))
 				}
 

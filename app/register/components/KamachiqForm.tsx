@@ -44,7 +44,7 @@ export const KamachiqFrom = ({ getKamachiqId }: kamachiqFromProps) => {
 
 		create(payload).subscribe({
 			next: (value) => {
-				if (!value.sucess) {
+				if (!value.success) {
 					toast.error(errorTranslate(value.payload.code))
 					return
 				}

@@ -41,7 +41,7 @@ export const UsuarioForm: React.FC<{ kamachiqId: string }> = ({ kamachiqId }) =>
 
 		create(payload).subscribe({
 			next: (value) => {
-				if (!value.sucess) {
+				if (!value.success) {
 					toast.error(errorTranslate(value.payload.code))
 					return
 				}
@@ -53,8 +53,6 @@ export const UsuarioForm: React.FC<{ kamachiqId: string }> = ({ kamachiqId }) =>
 			},
 		})
 	}
-
-	console.log({ errors })
 
 	return (
 		<form className='w-full max-w-lg mx-auto'>

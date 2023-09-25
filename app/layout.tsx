@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { Nunito } from 'next/font/google'
 import { NextUiProvider } from '@/providers/NextUiProvider'
+import { NextAuthProvider } from '@/providers/NextAuthProvider'
 import { AppUiProvider } from '@/providers/AppUiProvider'
 import { ToasterProvider } from '@/providers/ToasterProvider'
 import Loading from '@/components/loading'
@@ -22,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<ToasterProvider />
 				<Suspense fallback={<Loading />}>
 					<NextUiProvider>
-						<AppUiProvider>{children}</AppUiProvider>
+						<NextAuthProvider>
+							<AppUiProvider>{children}</AppUiProvider>
+						</NextAuthProvider>
 					</NextUiProvider>
 				</Suspense>
 			</body>
